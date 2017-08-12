@@ -37,7 +37,7 @@ public class AccountService implements IAccountService {
             user.setAccount(account);
             savedUser = userRepository.save(user);
         } else {
-            throw new DuplicateUserException("User with same name and email already exists");
+            throw new DuplicateUserException();
         }
         return savedUser.getAccount().getAccountNumber();
     }
@@ -47,7 +47,7 @@ public class AccountService implements IAccountService {
         BigDecimal newBalance = null;
         List<Account> accounts = accountRepository.findByAccountNumber(accountNumber);
         if (accounts.isEmpty()) {
-            throw new InvalidAccountNumberException("Account doesn't exists");
+            throw new InvalidAccountNumberException();
         } else {
             Account account = accounts.get(0);
             BigDecimal currentBalance = account.getAmount();
@@ -63,7 +63,7 @@ public class AccountService implements IAccountService {
         BigDecimal newBalance = null;
         List<Account> accounts = accountRepository.findByAccountNumber(accountNumber);
         if (accounts.isEmpty()) {
-            throw new InvalidAccountNumberException("Account doesn't exists");
+            throw new InvalidAccountNumberException();
         } else {
             Account account = accounts.get(0);
             BigDecimal currentBalance = account.getAmount();
@@ -82,7 +82,7 @@ public class AccountService implements IAccountService {
         Account account = null;
         List<Account> accounts = accountRepository.findByAccountNumber(accountNumber);
         if (accounts.isEmpty()) {
-            throw new InvalidAccountNumberException("Account doesn't exists");
+            throw new InvalidAccountNumberException();
         } else {
             account = accounts.get(0);
             account.getUser().setUsername(null);
