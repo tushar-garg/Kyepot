@@ -2,7 +2,6 @@ package com.kyepot.bank.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,25 +12,14 @@ import javax.persistence.OneToOne;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long       id;
-
-    @Column(unique = true)
     private Long       accountNumber;
 
     private String     branch;
 
-    private BigDecimal balance;
+    private BigDecimal amount = BigDecimal.ZERO;
 
     @OneToOne(mappedBy = "account")
     private User       user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getAccountNumber() {
         return accountNumber;
@@ -49,12 +37,12 @@ public class Account {
         this.branch = branch;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public User getUser() {

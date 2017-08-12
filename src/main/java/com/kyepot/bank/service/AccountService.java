@@ -33,7 +33,7 @@ public class AccountService implements IAccountService {
         List<User> users = userRepository.findByNameAndEmailAllIgnoreCase(user.getName(), user.getEmail());
         if (users.isEmpty()) {
             Account account = new Account();
-            accountRepository.save(account);
+            account = accountRepository.save(account);
             user.setAccount(account);
             savedUser = userRepository.save(user);
         } else {
@@ -50,9 +50,9 @@ public class AccountService implements IAccountService {
             throw new InvalidAccountNumberException("Account doesn't exists");
         } else {
             Account account = accounts.get(0);
-            BigDecimal currentBalance = account.getBalance();
+            BigDecimal currentBalance = account.getAmount();
             newBalance = currentBalance.add(amount);
-            account.setBalance(newBalance);
+            account.setAmount(newBalance);
             accountRepository.save(account);
         }
         return newBalance;
@@ -66,12 +66,12 @@ public class AccountService implements IAccountService {
             throw new InvalidAccountNumberException("Account doesn't exists");
         } else {
             Account account = accounts.get(0);
-            BigDecimal currentBalance = account.getBalance();
+            BigDecimal currentBalance = account.getAmount();
             if (currentBalance.compareTo(amount) == -1) {
                 throw new InsufficientBalanceException();
             }
             newBalance = currentBalance.subtract(amount);
-            account.setBalance(newBalance);
+            account.setAmount(newBalance);
             accountRepository.save(account);
         }
         return newBalance;
@@ -79,20 +79,16 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account getAccountDetails(Long accountNumber) {
-        Account accountDetails = null;
+        Account account = null;
         List<Account> accounts = accountRepository.findByAccountNumber(accountNumber);
         if (accounts.isEmpty()) {
             throw new InvalidAccountNumberException("Account doesn't exists");
         } else {
-            Account account = accounts.get(0);
-            accountDetails = new Account();
-            accountDetails.setBalance(account.getBalance());
-            accountDetails.setBranch(account.getBranch());
-            User user = new User();
-            user.setEmail(account.getUser().getEmail());
-            user.setName(account.getUser().getName());
+            account = accounts.get(0);
+            account.getUser().setUsername(null);
+            account.getUser().setPassword(null);
         }
-        return accountDetails;
+        return account;
     }
 
 }
