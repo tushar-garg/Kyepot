@@ -51,7 +51,7 @@ public class BankController {
     }
 
     @GetMapping(path = "/accountDetails")
-    public @ResponseBody Map<String, String> createAccount(@RequestParam Long accountNumber) {
+    public @ResponseBody Map<String, String> getAccountDetails(@RequestParam Long accountNumber) {
         Account account = accountService.getAccountDetails(accountNumber);
         Map<String, String> map = new HashMap<>();
         map.put("accountNumber", account.getAccountNumber().toString());
